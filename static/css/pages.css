@@ -1,0 +1,361 @@
+/* ===========================================================================
+   K8s DR Orchestrator — Page-Specific Layouts & Views
+   =========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   1. Dashboard Page
+   --------------------------------------------------------------------------- */
+.hero-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cluster Status Grid Map */
+.cluster-health-map {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.cluster-dot {
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-default);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.cluster-dot:hover {
+    transform: scale(1.25);
+    z-index: 10;
+}
+
+.cluster-dot-healthy {
+    background: var(--emerald-dim);
+    border-color: rgba(16, 185, 129, 0.4);
+}
+.cluster-dot-healthy:hover {
+    box-shadow: var(--shadow-glow-emerald);
+    border-color: var(--emerald);
+}
+
+.cluster-dot-degraded {
+    background: var(--amber-dim);
+    border-color: rgba(245, 158, 11, 0.4);
+}
+.cluster-dot-degraded:hover {
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+    border-color: var(--amber);
+}
+
+.cluster-dot-failover-active {
+    background: var(--cyan-dim);
+    border-color: rgba(0, 212, 255, 0.4);
+}
+.cluster-dot-failover-active:hover {
+    box-shadow: var(--shadow-glow-cyan);
+    border-color: var(--cyan);
+}
+
+.cluster-dot-maintenance {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-default);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    z-index: 100;
+    box-shadow: var(--shadow-md);
+}
+
+.cluster-dot:hover .tooltip {
+    opacity: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   2. Cluster Inventory Page
+   --------------------------------------------------------------------------- */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.cluster-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.cluster-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.cluster-card-header {
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
+.cluster-app-tag {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* ---------------------------------------------------------------------------
+   3. Runbooks Page
+   --------------------------------------------------------------------------- */
+.runbook-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 20px;
+}
+
+.runbook-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+/* ---------------------------------------------------------------------------
+   4. Live Execution Page
+   --------------------------------------------------------------------------- */
+.execution-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 1200px) {
+    .execution-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Timeline component */
+.timeline-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left: 24px;
+}
+
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 7px;
+    bottom: 10px;
+    width: 2px;
+    background: var(--border-default);
+}
+
+.timeline-step {
+    position: relative;
+    padding-bottom: 24px;
+}
+
+.timeline-step::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--bg-primary);
+    border: 2px solid var(--text-muted);
+    z-index: 2;
+    transition: all var(--transition-fast);
+}
+
+/* Running/completed step nodes */
+.timeline-step.running::before {
+    border-color: var(--cyan);
+    background: var(--cyan-dim);
+    box-shadow: var(--shadow-glow-cyan);
+    animation: stepNodePulse 1.5s infinite;
+}
+
+.timeline-step.completed::before {
+    border-color: var(--emerald);
+    background: var(--emerald);
+    box-shadow: var(--shadow-glow-emerald);
+}
+
+.timeline-step.waiting::before {
+    border-color: var(--amber);
+    background: var(--amber-dim);
+    animation: stepNodePulse 1.5s infinite;
+}
+
+.timeline-step.failed::before {
+    border-color: var(--red);
+    background: var(--red);
+    box-shadow: var(--shadow-glow-red);
+}
+
+@keyframes stepNodePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.timeline-step-content {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.timeline-step-content:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: var(--border-default);
+}
+
+.timeline-step.running .timeline-step-content {
+    border-color: var(--cyan-dim);
+    background: rgba(0, 212, 255, 0.03);
+}
+
+/* Terminal Log View */
+.terminal-view {
+    background: #02040a;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    font-family: var(--font-mono);
+    color: #e6edf3;
+    padding: 16px;
+    height: 350px;
+    overflow-y: auto;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------------------------------------------------------------------------
+   5. Analytics Page
+   --------------------------------------------------------------------------- */
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 1000px) {
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.chart-container {
+    height: 280px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+}
+
+/* Simple SVG-based styles for visual charts */
+.svg-chart {
+    width: 100%;
+    height: 100%;
+}
+
+/* ---------------------------------------------------------------------------
+   6. Audit Log & Settings Pages
+   --------------------------------------------------------------------------- */
+.audit-table-container {
+    overflow-x: auto;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+}
+
+.audit-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.audit-table th {
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border-default);
+    padding: 14px 18px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.audit-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.audit-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 32px;
+}
+
+@media (max-width: 800px) {
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+}

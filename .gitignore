@@ -1,0 +1,17 @@
+# SQLite database
+dr_orchestrator.db
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment
+.venv/
+venv/
+ENV/
+env/
+
+# OS-specific
+.DS_Store
+Thumbs.db
